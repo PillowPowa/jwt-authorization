@@ -4,7 +4,7 @@
  * Taken from
  * @see {@link https://gist.github.com/scokmen/f813c904ef79022e84ab2409574d1b45}
  */
-enum StatusCode {
+export enum StatusCode {
   /**
    * The server has received the request headers and the client should proceed to send the request body
    * (in the case of a request for which a body needs to be sent; for example, a POST request).
@@ -378,5 +378,3 @@ enum StatusCode {
    */
   NETWORK_AUTHENTICATION_REQUIRED = 511,
 }
-
-export default StatusCode;
