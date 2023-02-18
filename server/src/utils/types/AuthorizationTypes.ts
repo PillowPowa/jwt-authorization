@@ -3,19 +3,22 @@ import type {
   Response as ExpressResponse,
 } from 'express';
 import type * as core from 'express-serve-static-core';
+import type {ValidationError} from 'express-validator/src/base';
 import type {UserAgent, UserPayload} from './types';
-import type {StatusCode} from './StatusCode';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export type Request<TBodyType extends RequestBodies = unknown> = ExpressRequest<
-  core.ParamsDictionary,
-  any,
+export type Request<
+  TBodyType extends RequestBodies = unknown,
+  TParams extends RequestParams = undefined
+> = ExpressRequest<
+  TParams,
+  unknown,
   TBodyType,
   core.Query,
-  Record<string, any>
+  Record<string, unknown>
 >;
 
-type RequestBodies = RegistrationRequestBody | ActivationRequestBody | unknown;
+type RequestBodies = RegistrationRequestBody | LoginRequestBody | unknown;
+type RequestParams = ActivationRequestParam | undefined;
 
 export interface RegistrationRequestBody {
   email: string;
@@ -24,19 +27,25 @@ export interface RegistrationRequestBody {
   userAgent: UserAgent;
 }
 
-export interface ActivationRequestBody {
+export interface LoginRequestBody {
+  identifier: string;
+  password: string;
+  userAgent: UserAgent;
+}
+
+export interface ActivationRequestParam {
   activationLink: string;
 }
 
-export type Response<TBodyType extends ResponseBodies> =
+export type Response<TBodyType extends ResponseBodies = unknown> =
   ExpressResponse<TBodyType>;
 
-type ResponseBodies =
-  | RegistrationResponseBody
-  | ActivationResponseBody
-  | unknown;
+type ResponseBodies = RegistrationResponseBody | unknown;
 
-export type RegistrationResponseBody = SuccessRegistrationBody | Error;
+export type RegistrationResponseBody =
+  | SuccessRegistrationBody
+  | APIErrorJSON
+  | void;
 
 export interface SuccessRegistrationBody {
   accessToken: string;
@@ -45,6 +54,7 @@ export interface SuccessRegistrationBody {
   user: UserPayload;
 }
 
-export type ActivationResponseBody = UserPayload | Error;
-
-type Error = {message: string; code: StatusCode};
+export interface APIErrorJSON {
+  message: string;
+  errors: ValidationError[];
+}
