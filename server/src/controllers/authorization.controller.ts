@@ -1,6 +1,7 @@
-import type {auth} from '../utils/types/index';
+import {auth, StatusCode} from '../utils/types/index';
 import UserService from '../services/user.service';
 import {sendError, validateRequest, validateUserAgent} from './../utils/Util';
+import ApiError from './../utils/ApiError';
 
 export class Controller {
   static async Registration(
@@ -46,6 +47,26 @@ export class Controller {
         httpOnly: true,
       });
       return res.json(userData);
+    } catch (err) {
+      sendError(err, res);
+      return;
+    }
+  }
+  static async Logout(
+    req: auth.Request,
+    res: auth.Response<auth.LogoutResponseBody>
+  ) {
+    try {
+      const {refreshToken} = req.cookies;
+      if (!refreshToken || typeof refreshToken !== 'string') {
+        throw new ApiError(
+          StatusCode.UNAUTHORIZED,
+          'You need to log in to exit'
+        );
+      }
+      const token = await UserService.Logout(refreshToken);
+      res.clearCookie('refreshToken');
+      return res.json(token);
     } catch (err) {
       sendError(err, res);
       return;

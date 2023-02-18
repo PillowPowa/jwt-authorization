@@ -1,6 +1,7 @@
 import {sign} from 'jsonwebtoken';
 import type {UserAgent, UserPayload} from './../utils/types/types';
 import tokenModel from '../models/jwt.model';
+import type {LogoutResponseBody} from '../utils/types/AuthorizationTypes';
 
 export default class TokenService {
   static GenerateBasicToken(payload: UserPayload) {
@@ -36,5 +37,13 @@ export default class TokenService {
       userAgent,
       refreshToken,
     });
+  }
+  static async DeleteToken(refreshToken: string): Promise<LogoutResponseBody> {
+    const tokenData = await tokenModel.findOneAndDelete({refreshToken});
+    if (!tokenData) return {refreshToken: null, userAgent: null};
+    return {
+      refreshToken: tokenData.refreshToken,
+      userAgent: tokenData.userAgent as UserAgent,
+    };
   }
 }

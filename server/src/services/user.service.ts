@@ -77,6 +77,10 @@ export default class UserService {
 
     return {...tokens, user: payload};
   }
+  static async Logout(refreshToken: string): Promise<auth.LogoutResponseBody> {
+    const token = await TokenService.DeleteToken(refreshToken);
+    return token;
+  }
   static async Activation(activationLink: string): Promise<void> {
     const userData = await UserModel.findOne({activationLink});
     if (!userData) {

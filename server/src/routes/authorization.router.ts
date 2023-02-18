@@ -19,5 +19,5 @@ router.post(
   body('userAgent').isString(),
   Controller.Login
 );
-
+router.post('/logout', Controller.Logout);
 router.get('/activate/:activationLink', Controller.Activation);

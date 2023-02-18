@@ -42,10 +42,14 @@ export type Response<TBodyType extends ResponseBodies = unknown> =
 
 type ResponseBodies = RegistrationResponseBody | unknown;
 
-export type RegistrationResponseBody =
-  | SuccessRegistrationBody
-  | APIErrorJSON
-  | void;
+export type RegistrationResponseBody = SuccessRegistrationBody | APIErrorJSON;
+
+export type LogoutResponseBody =
+  | {
+      refreshToken: string | null;
+      userAgent: UserAgent | null;
+    }
+  | APIErrorJSON;
 
 export interface SuccessRegistrationBody {
   accessToken: string;
