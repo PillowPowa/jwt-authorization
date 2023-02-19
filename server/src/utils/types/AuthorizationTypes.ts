@@ -17,7 +17,11 @@ export type Request<
   Record<string, unknown>
 >;
 
-type RequestBodies = RegistrationRequestBody | LoginRequestBody | unknown;
+type RequestBodies =
+  | RegistrationRequestBody
+  | LoginRequestBody
+  | RefreshRequestBody
+  | unknown;
 type RequestParams = ActivationRequestParam | undefined;
 
 export interface RegistrationRequestBody {
@@ -33,6 +37,10 @@ export interface LoginRequestBody {
   userAgent: UserAgent;
 }
 
+export interface RefreshRequestBody {
+  userAgent: UserAgent;
+}
+
 export interface ActivationRequestParam {
   activationLink: string;
 }
@@ -40,9 +48,7 @@ export interface ActivationRequestParam {
 export type Response<TBodyType extends ResponseBodies = unknown> =
   ExpressResponse<TBodyType>;
 
-type ResponseBodies = RegistrationResponseBody | unknown;
-
-export type RegistrationResponseBody = SuccessRegistrationBody | APIErrorJSON;
+type ResponseBodies = LogoutResponseBody | CreateResponseBody | unknown;
 
 export type LogoutResponseBody =
   | {
@@ -51,7 +57,9 @@ export type LogoutResponseBody =
     }
   | APIErrorJSON;
 
-export interface SuccessRegistrationBody {
+export type CreateResponseBody = SuccessCreateBody | APIErrorJSON;
+
+export interface SuccessCreateBody {
   accessToken: string;
   refreshToken: string;
   createdAt: number;

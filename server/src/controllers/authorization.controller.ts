@@ -1,12 +1,16 @@
-import {auth, StatusCode} from '../utils/types/index';
+import type {auth} from '../utils/types/index';
 import UserService from '../services/user.service';
-import {sendError, validateRequest, validateUserAgent} from './../utils/Util';
-import ApiError from './../utils/ApiError';
+import {
+  getRefreshTokenFromCookies,
+  sendError,
+  validateRequest,
+  validateUserAgent,
+} from './../utils/Util';
 
 export class Controller {
   static async Registration(
     req: auth.Request<auth.RegistrationRequestBody>,
-    res: auth.Response<auth.RegistrationResponseBody>
+    res: auth.Response<auth.CreateResponseBody>
   ) {
     try {
       validateRequest(req);
@@ -36,7 +40,7 @@ export class Controller {
   }
   static async Login(
     req: auth.Request<auth.LoginRequestBody>,
-    res: auth.Response
+    res: auth.Response<auth.CreateResponseBody>
   ) {
     try {
       validateRequest(req);
@@ -57,16 +61,31 @@ export class Controller {
     res: auth.Response<auth.LogoutResponseBody>
   ) {
     try {
-      const {refreshToken} = req.cookies;
-      if (!refreshToken || typeof refreshToken !== 'string') {
-        throw new ApiError(
-          StatusCode.UNAUTHORIZED,
-          'You need to log in to exit'
-        );
-      }
+      const refreshToken = getRefreshTokenFromCookies(req.cookies);
       const token = await UserService.Logout(refreshToken);
       res.clearCookie('refreshToken');
       return res.json(token);
+    } catch (err) {
+      sendError(err, res);
+      return;
+    }
+  }
+  static async Refresh(
+    req: auth.Request<auth.RefreshRequestBody>,
+    res: auth.Response<auth.CreateResponseBody>
+  ) {
+    try {
+      const refreshToken = getRefreshTokenFromCookies(req.cookies);
+      validateUserAgent(req.body.userAgent);
+      const userData = await UserService.Refresh(
+        refreshToken,
+        req.body.userAgent
+      );
+      res.cookie('refreshToken', userData.refreshToken, {
+        maxAge: Number(process.env.JWT_REFRESH_EXPIRES_IN),
+        httpOnly: true,
+      });
+      return res.json(userData);
     } catch (err) {
       sendError(err, res);
       return;

@@ -7,6 +7,7 @@ import {v4} from 'uuid';
 import MailService from './activation.service';
 import TokenService from './jwt.service';
 import {type auth, StatusCode} from '../utils/types/index';
+import type {UserAgent} from '../utils/types/types';
 
 export default class UserService {
   static async Registration({
@@ -14,7 +15,7 @@ export default class UserService {
     username,
     password,
     userAgent,
-  }: auth.RegistrationRequestBody): Promise<auth.SuccessRegistrationBody> {
+  }: auth.RegistrationRequestBody): Promise<auth.SuccessCreateBody> {
     const userDatas = await Promise.all([
       UserModel.findOne({email}),
       UserModel.findOne({username}),
@@ -48,7 +49,7 @@ export default class UserService {
     identifier,
     password,
     userAgent,
-  }: auth.LoginRequestBody): Promise<auth.SuccessRegistrationBody> {
+  }: auth.LoginRequestBody): Promise<auth.SuccessCreateBody> {
     const userData = (
       await Promise.all([
         UserModel.findOne({email: identifier}),
@@ -80,6 +81,32 @@ export default class UserService {
   static async Logout(refreshToken: string): Promise<auth.LogoutResponseBody> {
     const token = await TokenService.DeleteToken(refreshToken);
     return token;
+  }
+  static async Refresh(
+    refreshToken: string,
+    userAgent: UserAgent
+  ): Promise<auth.SuccessCreateBody> {
+    const userPayload = TokenService.ValidateRefreshToken(refreshToken);
+    const tokenData = await TokenService.FindRefreshToken(refreshToken);
+    if (!userPayload || !tokenData) {
+      throw new ApiError(StatusCode.UNAUTHORIZED, 'The user is not authorized');
+    }
+    const userData = await UserModel.findById(userPayload.id);
+    if (!userData) {
+      throw new ApiError(
+        StatusCode.BAD_REQUEST,
+        `User '${userPayload.username}' with id '${userPayload.id}' does not exist!`
+      );
+    }
+    const payload = UserModel.toPayload(userData);
+    const tokens = TokenService.GenerateBasicToken(payload);
+    await TokenService.SaveToken(
+      userPayload.id,
+      userAgent,
+      tokens.refreshToken
+    );
+
+    return {...tokens, user: payload};
   }
   static async Activation(activationLink: string): Promise<void> {
     const userData = await UserModel.findOne({activationLink});
