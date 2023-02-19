@@ -7,20 +7,18 @@ import {connect} from 'mongoose';
 import * as routes from './routes/index';
 
 const app = express();
-const start = async () => {
-  try {
-    await connect(process.env.MONGO_URL);
-    app.listen(process.env.PORT || 5000, () => {
-      console.log(`Listening on PORT: ${process.env.PORT || 5000}`);
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
 
 app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 
+const start = async () => {
+  await connect(process.env.MONGO_URL);
+  app.listen(process.env.PORT || 5000, () => {
+    console.log(`Listening on PORT: ${process.env.PORT || 5000}`);
+  });
+};
+
 app.use('/api', routes.authorizationRouter);
+
 start();
