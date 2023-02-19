@@ -33,3 +33,15 @@ export function validateUserAgent(userAgent: UserAgent) {
     );
   }
 }
+
+export function getRefreshTokenFromCookies(cookies: unknown): string {
+  if (
+    !(typeof cookies === 'object') ||
+    cookies === null ||
+    !('refreshToken' in cookies) ||
+    typeof cookies.refreshToken !== 'string'
+  ) {
+    throw new ApiError(StatusCode.UNAUTHORIZED, 'You need to log in to exit');
+  }
+  return cookies.refreshToken;
+}
