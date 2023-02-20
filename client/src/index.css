@@ -1,0 +1,32 @@
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "NoirPro-Bold";
+  src: url("fonts/NoirPro-Bold.otf");
+}
+@font-face {
+  font-family: "NoirPro-Regular";
+  src: url("fonts/NoirPro-Regular.otf");
+}
+@font-face {
+  font-family: "NoirPro-Light";
+  src: url("fonts/NoirPro-Light.otf");
+}
+
+:root {
+  --white: #F6FBFF;
+
+  --dark-blue: #0F2133;
+  --dark-blue-focus: #0b1825;
+  --light-blue: #B5CAD8;
+
+  --dark-green: #1C482E;
+  --green: #1C482E;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+}
