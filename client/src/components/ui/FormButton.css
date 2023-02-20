@@ -1,0 +1,15 @@
+.form-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120%;
+  border: 1px var(--dark-blue) solid;
+  border-radius: 1.5vh;
+
+  font-family: NoirPro-Light;
+  font-size: inherit;
+
+  color: var(--white);
+  padding: .7rem 2rem .7rem 2rem;
+  background: var(--dark-blue);
+}
