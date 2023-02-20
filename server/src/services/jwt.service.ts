@@ -46,6 +46,14 @@ export default class TokenService {
       userAgent: tokenData.userAgent as UserAgent,
     };
   }
+  static ValidateAccessToken(token: string): UserPayload | null {
+    try {
+      const userPayload = verify(token, process.env.JWT_SECRET_ACCESS_KEY);
+      return userPayload as UserPayload;
+    } catch (err) {
+      return null;
+    }
+  }
   static ValidateRefreshToken(token: string): UserPayload | null {
     try {
       const userPayload = verify(token, process.env.JWT_SECRET_REFRESH_KEY);
