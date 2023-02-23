@@ -1,21 +1,20 @@
-import { useState } from "react";
+import {useState} from "react";
 import "./FormInput.css";
 
-interface InputComponentProps {
-	id: string;
-	type: "password" | "text";
+type InputComponentProps = {
 	children: string;
 	className: string;
-}
+	errors?: string;
+} & React.InputHTMLAttributes<HTMLInputElement>;
 
 export default function FormInput({
-	id,
-	type,
 	children,
 	className,
+	errors,
+	type,
+	...props
 }: InputComponentProps) {
 	const [visiblity, setVisiblity] = useState(type);
-
 	const passwordVisibility = (
 		event: React.MouseEvent<HTMLElement> & { target: HTMLElement }
 	) => {
@@ -24,15 +23,17 @@ export default function FormInput({
 		event.target.innerText = isVisible ? "visibility" : "visibility_off";
 	};
 
+
 	return (
 		<div className={className}>
 			<input
 				className="form-input"
-				type={visiblity}
-				id={id}
 				placeholder=" "
+				type={visiblity}
 				autoComplete="off"
+				{...props}
 			/>
+			<label className="form-label">{children}</label>
 			{type === "password" && (
 				<i
 					className="material-icons-round input-icon"
@@ -41,10 +42,7 @@ export default function FormInput({
 					visibility
 				</i>
 			)}
-			<label className="form-label" htmlFor={id}>
-				{children}
-			</label>
-			<p className="form-error">Incorrect value*</p>
+			<p className="form-error">{errors}</p>
 		</div>
 	);
 }

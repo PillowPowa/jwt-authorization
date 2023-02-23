@@ -1,15 +1,25 @@
 import "./FormButton.css";
 
-interface ButtonComponentProps {
+type ButtonComponentProps = {
 	children: string;
-	className: string;
 	filled?: boolean;
-}
+	className: string;
+} & React.ButtonHTMLAttributes<HTMLButtonElement>
 
-const FormButton = ({children, filled, className}: ButtonComponentProps) => {
+const FormButton = ({
+	children,
+	filled,
+	className,
+	...props
+}: ButtonComponentProps) => {
 	return (
 		<div className={className}>
-			<button className={"form-button " + (!filled ? "empty-button" : "filled-button")}>
+			<button
+				className={
+					"form-button " + (!filled ? "empty-button" : "filled-button")
+				}
+				{...props}
+			>
 				{children}
 			</button>
 		</div>
