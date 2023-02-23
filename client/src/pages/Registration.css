@@ -13,10 +13,6 @@ h1, h2, h3, h4 {
 	margin: 0;
 }
 
-h1 {
-	font-size: 7vh;
-}
-
 p {
 	font-family: NoirPro-Light;
 	color: var(--white);
@@ -25,12 +21,13 @@ p {
 }
 
 a {
+	font-family: NoirPro-Regular;
 	color: var(--dark-blue);
 }
 
 .form-paragraph {
 	font-size: 1rem;
-	width: 60%;
+	width: 50%;
 }
 
 .container {
@@ -58,18 +55,23 @@ a {
 
 	display: flex;
 	flex-direction: column;
-	place-items: center;
+	align-items: center;
 	text-align: center;
 	
 	border-radius: 0 6vh 6vh 0;
 }
 
+.container-footer {
+	margin: auto;
+	text-align: left;
+}
+
 .form-component {
   position: relative;
 	text-align: left;
-  width: 24vw;
+	font-family: NoirPro-Light;
+  width: 26vw;
   font-size: 1.4rem;
-  font-family: NoirPro-Regular;
 }
 
 .poster {
@@ -78,16 +80,27 @@ a {
 	height: 24vh;
 
 	top: 40vh;
-	left: calc(50vw - 36vw);
+	left: 14vw;
 
 	border-radius: 3vh;
 	padding-left: 8vw;
 
 	background: rgba(15, 33, 51, 0.15);
 	backdrop-filter: blur(1vh);
+
+	animation: poster-in .8s normal forwards ease-in-out;
 }
 
-@media (max-width: 1150px) {
+@keyframes poster-in {
+	0% {
+		left: 0vw;
+	}
+	100% {
+		left: 14vw;
+	}
+}
+
+@media (max-width: 1280px) {
 	.container-content {
 		width: 60vw;
 		border-radius: 6vh;
@@ -100,7 +113,7 @@ a {
 	}
 }
 
-@media (max-width: 600px) {
+@media (max-width: 860px) {
 	.container-content {
 		width: 100vw;
 		height: 100vh;
@@ -112,5 +125,29 @@ a {
 	}
 	.form-component {
 		width: 60vw;
+	}
+}
+
+@media (max-width: 560px) {
+	.form-component {
+		width: 90vw;
+	}
+}
+
+@media (max-height: 880px) {
+	.container-content {
+		width: 100vw;
+		height: 100vh;
+	}
+	.container {
+		width: 100vw;
+		height: 100vh;
+		padding: 0;
+		border-radius: 0;
+	}
+	.container-image {
+		width: 50vw;
+		height: 100vh;
+		border-radius: 0;
 	}
 }

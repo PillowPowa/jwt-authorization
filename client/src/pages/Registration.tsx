@@ -110,22 +110,24 @@ export default function Registration() {
 						<a href="/">Privacy Policy</a>
 					</p>
 
-					<FormButton
-						className="form-component"
-						filled={true}
-						type="submit"
-						onClick={registrate}
-					>
-						Create an account!
-					</FormButton>
-					<FormButton className="form-component">
-						Sign up with Google!
-					</FormButton>
+					<div className="container-footer">
+						<FormButton
+							className="form-component"
+							filled={true}
+							type="submit"
+							onClick={registrate}
+						>
+							Create an account!
+						</FormButton>
+						<FormButton className="form-component">
+							Sign up with Google!
+						</FormButton>
 
-					<p className="form-paragraph">
-						Already have an account?&nbsp;
-						<a href="/">Login now!</a>
-					</p>
+						<p className="form-paragraph" style={{width: "100%", marginTop: "1rem"}}>
+							Already have an account?&nbsp;
+							<a href="/">Login now!</a>
+						</p>
+					</div>
 				</div>
 			</div>
 			<div className="poster">
