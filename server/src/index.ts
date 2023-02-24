@@ -9,7 +9,12 @@ import * as routes from './routes/index';
 const app = express();
 
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_REDIRECT_URI,
+  })
+);
 app.use(express.json());
 
 const start = async () => {
