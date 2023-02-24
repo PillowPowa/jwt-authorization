@@ -1,6 +1,8 @@
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import "./Registration.css";
+
+import "./Authorization.css";
+
 import FormInput from "../components/ui/FormInput";
 import FormButton from "../components/ui/FormButton";
 
@@ -68,10 +70,11 @@ export default function Registration() {
 
 	return (
 		<>
-			<div className="container">
+			<div className="container blue">
 				<img
 					className="container-image"
 					src="registration_background.png"
+					style={{ borderRadius: "6vh 0 0 6vh" }}
 					alt="background"
 				/>
 				<div className="container-content">
@@ -105,7 +108,7 @@ export default function Registration() {
 						Password
 					</FormInput>
 
-					<p className="form-paragraph">
+					<p className="form-component">
 						By counting you agree to <a href="/">Terms & Conditions</a> and{" "}
 						<a href="/">Privacy Policy</a>
 					</p>
@@ -123,16 +126,21 @@ export default function Registration() {
 							Sign up with Google!
 						</FormButton>
 
-						<p className="form-paragraph" style={{width: "100%", marginTop: "1rem"}}>
+						<p className="form-component" style={{ marginTop: "1rem" }}>
 							Already have an account?&nbsp;
-							<a href="/">Login now!</a>
+							<a href="/login">Login now!</a>
 						</p>
 					</div>
 				</div>
 			</div>
-			<div className="poster">
+			<div
+				className="poster"
+				style={{ animation: "left-to-right 2s normal forwards ease-in-out" }}
+			>
 				<h1 style={{ fontSize: "7vh" }}>Sign up</h1>
-				<p>sign up to unlock exciting experience with our services</p>
+				<p className="poster-paragraph">
+					sign up to unlock exciting experience with our services
+				</p>
 			</div>
 		</>
 	);

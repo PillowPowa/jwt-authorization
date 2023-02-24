@@ -1,0 +1,276 @@
+.container.green {
+	--primary: var(--dark-green);
+	--light: var(--light-green);
+	--prev-light: var(--light-blue);
+	--pale: var(--white-green);
+	--focus: var(--dark-green-focus);
+	--blur: rgba(28, 72, 46, 0.15);
+}
+.container.blue {
+	--primary: var(--dark-blue);
+	--light: var(--light-blue);
+	--prev-light: var(--light-green);
+	--pale: var(--white);
+	--focus: var(--dark-blue-focus);
+	--blur: rgba(15, 33, 51, 0.15);
+}
+
+body {
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	background: linear-gradient(
+		45deg,
+		var(--dark-blue) 0%,
+		var(--dark-blue) 50%,
+		var(--dark-green) 50%,
+		var(--dark-green) 100%
+	);
+}
+
+h1,
+h2,
+h3,
+h4 {
+	line-height: 10vh;
+	font-family: NoirPro-Bold;
+	color: var(--white);
+	margin: 0;
+	animation: line-down 2s normal forwards ease-in-out;
+}
+
+p {
+	font-family: NoirPro-Light;
+	color: var(--white);
+	font-size: calc(24vh - 21vh);
+	width: calc(28vw - 8vw);
+}
+
+a {
+	font-family: NoirPro-Regular;
+	color: var(--primary);
+}
+
+.form-component ~ p {
+	color: var(--pale);
+	font-size: 0.95rem;
+}
+
+.container {
+	width: 60vw;
+	height: 70vh;
+
+	display: flex;
+	flex-direction: inherit;
+
+	border-radius: 6vh;
+	padding: 1vh;
+
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently */
+	animation: container-color .6s normal forwards ease-in-out;
+}
+
+@keyframes container-color {
+	0% {
+		background: var(--prev-light);
+	}
+	100% {
+		background: var(--light);
+	}
+}
+
+.container-image {
+	object-fit: cover;
+	width: 30vw;
+	height: 70vh;
+	animation: image-in .6s normal forwards ease-in-out;
+}
+
+@keyframes image-in {
+	0% {
+		width: 0;
+	}
+	100% {
+		width: 30vw;
+	}
+}
+
+
+.container-content {
+	width: 50vw;
+	height: 70vh;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: left;
+}
+
+.container-footer {
+	margin-top: auto;
+	margin-bottom: 1em;
+}
+
+.form-component {
+	position: relative;
+	font-family: NoirPro-Light;
+	width: 26vw;
+	font-size: 1.4rem;
+}
+
+.container.green ~ .poster {
+	left: 56vw;
+	padding-left: 3vw;
+	width: 26vw;
+}
+
+.poster {
+	position: absolute;
+	width: 21vw;
+	height: 24vh;
+
+	top: 40vh;
+	left: 14vw;
+
+	border-radius: 3vh;
+	padding-left: 8vw;
+
+	background: var(--blur);
+	backdrop-filter: blur(1vh);
+}
+
+.poster-paragraph {
+	animation: line-up 1s normal forwards ease-in-out;
+}
+
+@keyframes right-to-left {
+	0% {
+		opacity: 0;
+		transform: translateX(80%);
+	}
+	20% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+		transform: translateX(0%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0%);
+	}
+}
+
+@keyframes left-to-right {
+	0% {
+		opacity: 0;
+		transform: translateX(-80%);
+	}
+	20% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+		transform: translateX(0%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0%);
+	}
+}
+
+@keyframes line-down {
+	0% {
+		opacity: 0;
+		transform: translateY(-80%);
+	}
+	20% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+}
+
+@keyframes line-up {
+	0% {
+		opacity: 0;
+		transform: translateY(80%);
+	}
+	20% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0%);
+	}
+}
+
+@media (max-width: 1280px) {
+	.container-content {
+		width: 60vw;
+		border-radius: 6vh;
+	}
+	.container-image,
+	.poster {
+		display: none;
+	}
+	.form-component {
+		width: 40vw;
+	}
+}
+
+@media (max-width: 860px) {
+	.container-content {
+		width: 100vw;
+		height: 100vh;
+	}
+	.container {
+		width: 100vw;
+		height: 100vh;
+		border-radius: 0;
+	}
+	.form-component {
+		width: 60vw;
+	}
+}
+
+@media (max-width: 560px) {
+	.form-component {
+		width: 90vw;
+	}
+}
+
+@media (max-height: 880px) {
+	.container-content {
+		width: 100vw;
+		height: 100vh;
+	}
+	.container {
+		width: 100vw;
+		height: 100vh;
+		padding: 0;
+		border-radius: 0;
+	}
+	.container-image {
+		width: 50vw;
+		height: 100vh;
+		border-radius: 0;
+	}
+}

@@ -3,52 +3,55 @@
 	width: 80%;
 	height: 0%;
 
-	border: 1.5px var(--dark-blue) solid;
-	border-radius: 1.5vh;
+	margin: .8rem 0 0 0;
 
-	font-family: inherit;
+	border: 1.5px var(--primary) solid;
+	border-radius: 1.5vh;
 	font-size: inherit;
 
-	color: var(--white);
+	color: var(--pale);
 	outline: none;
 	padding: 1.6rem 2rem 1.6rem 2rem;
 	background: none;
 }
 
 .form-input:focus {
-	border-color: var(--dark-blue-focus);
+	border-color: var(--focus);
 }
 
 .form-label {
 	position: absolute;
 	left: 1.2rem;
-	top: 0.8rem;
+	top: 1.6rem;
 	padding: 0 0.5rem;
-	color: var(--white);
+	color: var(--pale);
 	opacity: 0.5;
 	cursor: text;
 	transition: top 0.2s ease-in, left 0.2s ease-in, font-size 0.2s ease-in;
+	pointer-events: none;
 }
 
 .form-input:focus ~ .form-label,
 .form-input:not(:placeholder-shown).form-input:not(:focus) ~ .form-label {
-	background-color: var(--light-blue);
+	background-color: var(--light);
 	opacity: 1;
-	top: -.6rem;
+	top: .2rem;
 	left: 1.4rem;
 	font-size: 1rem;
 }
 
 .form-error {
+	position: relative;
 	color: red;
 	font-size: .8rem;
-	right: 12rem;
+	width: inherit;
+	margin: .2rem 0 0 .8rem;
 }
 
 .input-icon {
   position: absolute;
   margin-left: -2.5rem;
-  margin-top: .9rem;
-	color: var(--dark-blue);
+  margin-top: 1.7rem;
+	color: var(--dark);
 	cursor: pointer;
 }

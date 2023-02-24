@@ -1,13 +1,14 @@
 .form-button {
-  margin: 1rem 0 1rem 0;
-  width: 95%;
-  border: 1px var(--dark-blue) solid;
+  width: 94%;
+  
+  margin: 1rem 0 0 0;
+  border: 1.5px var(--primary) solid;
   border-radius: 1.5vh;
 
   font-family: NoirPro-Light;
   font-size: inherit;
 
-  color: var(--dark-blue);
+  color: var(--primary);
   padding: .7rem 2rem .7rem 2rem;
   background: none;
   transition: background .2s ease-in,
@@ -15,16 +16,16 @@
 }
 
 .filled-button {
-  color: var(--white);
-  background: var(--dark-blue);
+  color: var(--light);
+  background: var(--primary);
 }
 
 .filled-button:hover {
-  color: var(--dark-blue);
+  color: var(--primary);
   background: none;
 }
 
 .empty-button:hover {
-  color: var(--white);
-  background: var(--dark-blue);
+  color: var(--light);
+  background: var(--primary);
 }
