@@ -8,21 +8,19 @@ import type {UserAgent, UserPayload} from './types';
 
 export type Request<
   TBodyType extends RequestBodies = unknown,
-  TParams extends RequestParams = undefined
+  TParams extends RequestParams = undefined,
+  TQuery extends RequestQueries = core.Query
 > = ExpressRequest<
   TParams,
   unknown,
   TBodyType,
-  core.Query,
+  TQuery,
   Record<string, unknown>
 >;
 
-type RequestBodies =
-  | RegistrationRequestBody
-  | LoginRequestBody
-  | RefreshRequestBody
-  | unknown;
+type RequestBodies = RegistrationRequestBody | LoginRequestBody | unknown;
 type RequestParams = ActivationRequestParam | undefined;
+type RequestQueries = core.Query | RefreshRequestQuery;
 
 export interface RegistrationRequestBody {
   email: string;
@@ -37,7 +35,7 @@ export interface LoginRequestBody {
   userAgent: UserAgent;
 }
 
-export interface RefreshRequestBody {
+export interface RefreshRequestQuery {
   userAgent: UserAgent;
 }
 

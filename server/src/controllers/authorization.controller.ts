@@ -71,15 +71,15 @@ export class Controller {
     }
   }
   static async Refresh(
-    req: auth.Request<auth.RefreshRequestBody>,
+    req: auth.Request<unknown, undefined, auth.RefreshRequestQuery>,
     res: auth.Response<auth.CreateResponseBody>
   ) {
     try {
       const refreshToken = getRefreshTokenFromCookies(req.cookies);
-      validateUserAgent(req.body.userAgent);
+      validateUserAgent(req.query.userAgent);
       const userData = await UserService.Refresh(
         refreshToken,
-        req.body.userAgent
+        req.query.userAgent
       );
       res.cookie('refreshToken', userData.refreshToken, {
         maxAge: Number(process.env.JWT_REFRESH_EXPIRES_IN),
