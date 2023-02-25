@@ -8,8 +8,11 @@ import "./Authorization.css";
 import { Context } from "../App";
 import getUserAgent from "./../hooks/UserAgent";
 import { ServerError } from "../types/ResponseTypes";
+import { useKeySubmit } from './../hooks/KeyDownSubmit';
+import type { LoginFormBody } from './../types/ResponseTypes';
+import { observer } from 'mobx-react-lite';
 
-export default function Login() {
+const Login = () => {
 	const [isLoading, setLoading] = useState(false);
 
 	const [identifier, setIdentifier] = useState<string>("");
@@ -17,32 +20,31 @@ export default function Login() {
 
 	const { store } = useContext(Context);
 
-	interface FormBody {
-		identifier: string;
-		password: string;
-	}
-
 	const {
 		register,
 		handleSubmit,
 		setError,
 		formState: { errors },
-	} = useForm<FormBody>();
+	} = useForm<LoginFormBody>();
 
 	const login = handleSubmit(async () => {
 		setLoading(true);
 		const data = await store.login(identifier, password, getUserAgent());
 		const serverErr = data.errors;
 		if (serverErr) {
-			serverErr.forEach((error: ServerError<FormBody>) => {
+			serverErr.forEach((error: ServerError<LoginFormBody>) => {
 				setError(error.param, {
 					type: "server",
 					message: error.msg + "*",
 				});
 			});
+		} else {
+			window.location.href = "/";
 		}
 		setTimeout(() => setLoading(false), 400);
 	});
+
+	useKeySubmit(login);
 
 	return (
 		<>
@@ -112,3 +114,5 @@ export default function Login() {
 		</>
 	);
 }
+
+export default observer(Login);

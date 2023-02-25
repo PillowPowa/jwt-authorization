@@ -7,10 +7,12 @@ import FormInput from "../components/ui/FormInput";
 import FormButton from "../components/ui/FormButton";
 
 import { Context } from "./../App";
-import getUserAgent from './../hooks/UserAgent';
+import getUserAgent from "./../hooks/UserAgent";
 import { RegistrationFormBody, ServerError } from "../types/ResponseTypes";
+import { useKeySubmit } from "./../hooks/KeyDownSubmit";
+import { observer } from 'mobx-react-lite';
 
-export default function Registration() {
+const Registration = () => {
 	const [isLoading, setLoading] = useState(false);
 
 	const [username, setUserName] = useState<string>("");
@@ -23,7 +25,7 @@ export default function Registration() {
 		register,
 		handleSubmit,
 		setError,
-		formState: {errors},
+		formState: { errors },
 	} = useForm<RegistrationFormBody>();
 
 	const registrate = handleSubmit(async () => {
@@ -43,9 +45,13 @@ export default function Registration() {
 					message: error.msg,
 				});
 			});
+		} else {
+			window.location.href = "/";
 		}
 		setTimeout(() => setLoading(false), 400);
 	});
+
+	useKeySubmit(registrate);
 
 	return (
 		<>
@@ -125,3 +131,5 @@ export default function Registration() {
 		</>
 	);
 }
+
+export default observer(Registration);
