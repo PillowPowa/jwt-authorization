@@ -41,7 +41,7 @@ export function getRefreshTokenFromCookies(cookies: unknown): string {
     !('refreshToken' in cookies) ||
     typeof cookies.refreshToken !== 'string'
   ) {
-    throw new ApiError(StatusCode.UNAUTHORIZED, 'You need to log in to exit');
+    throw new ApiError(StatusCode.UNAUTHORIZED, 'User need to log in to exit');
   }
   return cookies.refreshToken;
 }

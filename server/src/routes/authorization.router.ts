@@ -6,15 +6,19 @@ export const router = Router();
 
 router.post(
   '/registration',
-  body('email').isEmail(),
-  body('username').isString(),
-  body('password').isLength({min: 6, max: 32}),
+  body('email').isEmail().withMessage('Invalid email address entered'),
+  body('username').isLength({min: 2}).withMessage('This field is required'),
+  body('password')
+    .isLength({min: 6, max: 32})
+    .withMessage('The length of the password should be 6-32 characters'),
   Controller.Registration
 );
 router.post(
   '/login',
-  body('identifier').isString(),
-  body('password').isString(),
+  body('identifier').isLength({min: 2}).withMessage('This field is required'),
+  body('password')
+    .isLength({min: 6, max: 32})
+    .withMessage('This field is required'),
   Controller.Login
 );
 router.post('/logout', Controller.Logout);

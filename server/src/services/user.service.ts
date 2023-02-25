@@ -24,7 +24,21 @@ export default class UserService {
     if (userDatas.some(data => data !== null)) {
       throw new ApiError(
         StatusCode.BAD_REQUEST,
-        `User with email '${email}' or username '${username}' currently exist!`
+        `User with email '${email}' or username '${username}' currently exist!`,
+        [
+          {
+            location: 'body',
+            param: 'username',
+            msg: `User with email '${email}' or username '${username}' currently exist!`,
+            value: username,
+          },
+          {
+            location: 'body',
+            param: 'email',
+            msg: `User with email '${email}' or username '${username}' currently exist!`,
+            value: email,
+          },
+        ]
       );
     }
 
@@ -60,7 +74,15 @@ export default class UserService {
     if (!userData) {
       throw new ApiError(
         StatusCode.BAD_REQUEST,
-        `User with identifier '${identifier}' does not exist!`
+        `User with identifier '${identifier}' does not exist!`,
+        [
+          {
+            location: 'body',
+            param: 'identifier',
+            msg: `User '${identifier}' does not exist!`,
+            value: identifier,
+          },
+        ]
       );
     }
 
@@ -68,7 +90,15 @@ export default class UserService {
     if (!isPasswordCorrent) {
       throw new ApiError(
         StatusCode.BAD_REQUEST,
-        `User with identifier '${identifier}' enter wrong password!`
+        `User with identifier '${identifier}' enter wrong password!`,
+        [
+          {
+            location: 'body',
+            param: 'password',
+            msg: 'Invalid password',
+            value: identifier,
+          },
+        ]
       );
     }
 
