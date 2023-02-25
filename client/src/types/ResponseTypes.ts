@@ -17,3 +17,21 @@ export enum UserAgent {
   Mobile = 'mobile',
   Desktop = 'desktop',
 }
+
+export interface RegistrationFormBody {
+  username: string;
+  email: string;
+  password: string;
+}
+
+export interface LoginFormBody {
+  identifier: string;
+  password: string;
+}
+
+type FormBody = RegistrationFormBody | LoginFormBody;
+
+export interface ServerError<T extends FormBody> {
+  param: keyof T;
+  msg: string;
+}

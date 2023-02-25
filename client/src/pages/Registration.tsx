@@ -8,28 +8,27 @@ import FormButton from "../components/ui/FormButton";
 
 import { Context } from "./../App";
 import getUserAgent from './../hooks/UserAgent';
+import { RegistrationFormBody, ServerError } from "../types/ResponseTypes";
 
 export default function Registration() {
+	const [isLoading, setLoading] = useState(false);
+
 	const [username, setUserName] = useState<string>("");
 	const [email, setEmail] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
 	const { store } = useContext(Context);
 
-	interface FormBody {
-		username: string;
-		email: string;
-		password: string;
-	}
-
 	const {
 		register,
 		handleSubmit,
 		setError,
-		formState: { errors },
-	} = useForm<FormBody>();
+		formState: {errors},
+	} = useForm<RegistrationFormBody>();
 
 	const registrate = handleSubmit(async () => {
+		setLoading(true);
+
 		const data = await store.registration(
 			username,
 			email,
@@ -38,14 +37,14 @@ export default function Registration() {
 		);
 		const serverErr = data.errors;
 		if (serverErr) {
-			// @ts-ignore
-			serverErr.forEach((error) => {
+			serverErr.forEach((error: ServerError<RegistrationFormBody>) => {
 				setError(error.param, {
 					type: "server",
 					message: error.msg,
 				});
 			});
 		}
+		setTimeout(() => setLoading(false), 400);
 	});
 
 	return (
@@ -98,6 +97,7 @@ export default function Registration() {
 							className="form-component"
 							filled={true}
 							type="submit"
+							isLoading={isLoading}
 							onClick={registrate}
 						>
 							Create an account!

@@ -6,9 +6,12 @@ import { useForm } from "react-hook-form";
 import "./Authorization.css";
 
 import { Context } from "../App";
-import getUserAgent from './../hooks/UserAgent';
+import getUserAgent from "./../hooks/UserAgent";
+import { ServerError } from "../types/ResponseTypes";
 
 export default function Login() {
+	const [isLoading, setLoading] = useState(false);
+
 	const [identifier, setIdentifier] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
@@ -23,21 +26,22 @@ export default function Login() {
 		register,
 		handleSubmit,
 		setError,
-		formState: {errors},
+		formState: { errors },
 	} = useForm<FormBody>();
 
 	const login = handleSubmit(async () => {
+		setLoading(true);
 		const data = await store.login(identifier, password, getUserAgent());
 		const serverErr = data.errors;
 		if (serverErr) {
-			// @ts-ignore
-			serverErr.forEach((error) => {
+			serverErr.forEach((error: ServerError<FormBody>) => {
 				setError(error.param, {
 					type: "server",
-					message: error.msg,
+					message: error.msg + "*",
 				});
 			});
 		}
+		setTimeout(() => setLoading(false), 400);
 	});
 
 	return (
@@ -69,6 +73,7 @@ export default function Login() {
 
 					<div className="container-footer">
 						<FormButton
+							isLoading={isLoading}
 							className="form-component"
 							filled={true}
 							type="submit"
@@ -86,12 +91,14 @@ export default function Login() {
 						</p>
 					</div>
 				</div>
-				<img
-					className="container-image"
-					src="authorization_background.png"
-					style={{ borderRadius: "0 6vh 6vh 0" }}
-					alt="background"
-				/>
+				<div className="container-image">
+					<img
+						className="container-image"
+						src="authorization_background.png"
+						style={{ borderRadius: "0 6vh 6vh 0" }}
+						alt="background"
+					/>
+				</div>
 			</div>
 			<div
 				className="poster"
