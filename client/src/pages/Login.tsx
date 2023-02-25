@@ -6,32 +6,13 @@ import { useForm } from "react-hook-form";
 import "./Authorization.css";
 
 import { Context } from "../App";
-import { UserAgent } from "../types/ResponseTypes";
+import getUserAgent from './../hooks/UserAgent';
 
 export default function Login() {
 	const [identifier, setIdentifier] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 
 	const { store } = useContext(Context);
-
-	const userAgent = () => {
-		const [isMobile, isTablet] = [
-			/iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(
-				navigator.userAgent.toLowerCase()
-			),
-			/ipad|android|android 3.0|xoom|sch-i800|playbook|tablet|kindle/i.test(
-				navigator.userAgent.toLowerCase()
-			),
-		];
-
-		if (isMobile && !isTablet) {
-			return UserAgent.Mobile;
-		} else if (!isMobile && isTablet) {
-			return UserAgent.Tablet;
-		} else {
-			return UserAgent.Desktop;
-		}
-	};
 
 	interface FormBody {
 		identifier: string;
@@ -42,12 +23,11 @@ export default function Login() {
 		register,
 		handleSubmit,
 		setError,
-		formState: { errors },
+		formState: {errors},
 	} = useForm<FormBody>();
 
-	const registrate = handleSubmit(async () => {
-		const data = await store.login(identifier, password, userAgent());
-		console.log(data);
+	const login = handleSubmit(async () => {
+		const data = await store.login(identifier, password, getUserAgent());
 		const serverErr = data.errors;
 		if (serverErr) {
 			// @ts-ignore
@@ -92,7 +72,7 @@ export default function Login() {
 							className="form-component"
 							filled={true}
 							type="submit"
-							onClick={registrate}
+							onClick={login}
 						>
 							Sign in!
 						</FormButton>
