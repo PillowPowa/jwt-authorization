@@ -1,10 +1,13 @@
 import { makeAutoObservable } from 'mobx';
 import type { UserAgent, UserPayload } from '../types/ResponseTypes';
 import AuthorizationService from './../services/AuthorizationService';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
+import { SuccessCreateBody } from './../../../server/src/utils/types/AuthorizationTypes';
+import { baseURL } from './../http/index';
 
 export default class Store {
   public user: UserPayload | null = null;
+  public loading: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -31,6 +34,9 @@ export default class Store {
         return err.response?.data
       }
     }
+  }
+  private setLoading(status: boolean) {
+    this.loading = status;
   }
   public async registration(
     username: string,
@@ -62,6 +68,30 @@ export default class Store {
       } else {
         console.warn(err);
       }
+    }
+  }
+  public async refresh(userAgent: UserAgent) {
+    try {
+      this.setLoading(true);
+      const response = await axios.get<SuccessCreateBody>(
+        `${baseURL}/refresh`, {
+        withCredentials: true,
+        params: {
+          userAgent
+        }
+      }
+      );
+      localStorage.setItem('token', response.data.accessToken);
+      this.setUser(response.data.user);
+      return response.data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.warn(err.response?.data?.message);
+      } else {
+        console.warn(err);
+      }
+    } finally {
+      this.setLoading(false);
     }
   }
 }
