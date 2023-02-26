@@ -1,0 +1,14 @@
+.loader-spinner {
+  border: 1em solid var(--white);
+  border-top: 1em solid var(--dark-blue);
+  border-bottom: 1em solid var(--dark-green);
+  border-radius: 50%;
+  width: 25vh;
+  height: 25vh;
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
