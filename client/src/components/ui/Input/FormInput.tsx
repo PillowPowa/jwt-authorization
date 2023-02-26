@@ -1,5 +1,5 @@
 import {useState} from "react";
-import "./FormInput.css";
+import styles from "./styles.module.css";
 
 type InputComponentProps = {
 	children: string;
@@ -7,13 +7,13 @@ type InputComponentProps = {
 	errors?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export default function FormInput({
+export const FormInput = ({
 	children,
 	className,
 	errors,
 	type,
 	...props
-}: InputComponentProps) {
+}: InputComponentProps) => {
 	const [visiblity, setVisiblity] = useState(type);
 	const passwordVisibility = (
 		event: React.MouseEvent<HTMLElement> & { target: HTMLElement }
@@ -27,22 +27,22 @@ export default function FormInput({
 	return (
 		<div className={className}>
 			<input
-				className="form-input"
+				className={styles.input}
 				placeholder=" "
 				type={visiblity}
 				autoComplete="off"
 				{...props}
 			/>
-			<label className="form-label">{children}</label>
+			<label className={styles.label}>{children}</label>
 			{type === "password" && (
 				<i
-					className="material-icons-round input-icon"
+					className={"material-icons-round " + styles.icon}
 					onClick={passwordVisibility}
 				>
 					visibility
 				</i>
 			)}
-			<p className="form-error">{errors}</p>
+			<p className={styles.error}>{errors}</p>
 		</div>
 	);
 }

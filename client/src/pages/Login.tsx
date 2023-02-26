@@ -1,5 +1,4 @@
-import FormInput from "../components/ui/FormInput";
-import FormButton from "../components/ui/FormButton";
+import {FormInput, FormButton} from "../components/ui";
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 
@@ -11,8 +10,10 @@ import { ServerError } from "../types/ResponseTypes";
 import { useKeySubmit } from './../hooks/KeyDownSubmit';
 import type { LoginFormBody } from './../types/ResponseTypes';
 import { observer } from 'mobx-react-lite';
+import { PopupModal } from './../components/Popup/index';
 
 const Login = () => {
+	const [popupActive, setPopupActive] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 
 	const [identifier, setIdentifier] = useState<string>("");
@@ -30,7 +31,7 @@ const Login = () => {
 	const login = handleSubmit(async () => {
 		setLoading(true);
 		const data = await store.login(identifier, password, getUserAgent());
-		const serverErr = data.errors;
+		const serverErr = data?.errors;
 		if (serverErr) {
 			serverErr.forEach((error: ServerError<LoginFormBody>) => {
 				setError(error.param, {
@@ -48,6 +49,9 @@ const Login = () => {
 
 	return (
 		<>
+			<PopupModal active={popupActive} onClose={() => setPopupActive(false)}>
+				<div></div>
+			</PopupModal>
 			<div className="container green">
 				<div className="container-content">
 					<h2 style={{ fontSize: "5vh", color: "var(--dark-green)" }}>
@@ -78,15 +82,13 @@ const Login = () => {
 							isLoading={isLoading}
 							className="form-component"
 							filled={true}
-							type="submit"
 							onClick={login}
 						>
 							Sign in!
 						</FormButton>
-						<FormButton className="form-component">
-							Log in with Google!
+						<FormButton className="form-component" onClick={() => setPopupActive(true)}>
+							Popup
 						</FormButton>
-
 						<p className="form-paragraph" style={{ marginTop: "1rem" }}>
 							Don't have an account?&nbsp;
 							<a href="/registration">Sign up!</a>

@@ -2,9 +2,7 @@ import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import "./Authorization.css";
-
-import FormInput from "../components/ui/FormInput";
-import FormButton from "../components/ui/FormButton";
+import {FormInput, FormButton} from "../components/ui";
 
 import { Context } from "./../App";
 import getUserAgent from "./../hooks/UserAgent";
@@ -107,9 +105,6 @@ const Registration = () => {
 							onClick={registrate}
 						>
 							Create an account!
-						</FormButton>
-						<FormButton className="form-component">
-							Sign up with Google!
 						</FormButton>
 
 						<p className="form-component" style={{ marginTop: "1rem" }}>

@@ -1,4 +1,4 @@
-import "./FormButton.css";
+import styles from "./styles.module.css";
 
 type ButtonComponentProps = {
 	children: string;
@@ -7,7 +7,7 @@ type ButtonComponentProps = {
 	isLoading?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
-const FormButton = ({
+export const FormButton = ({
 	children,
 	filled,
 	className,
@@ -18,15 +18,13 @@ const FormButton = ({
 		<div className={className}>
 			<button
 				className={
-					"form-button " + (!filled ? "empty-button" : "filled-button")
+					styles.button + " " + (!filled ? styles.empty : styles.filled)
 				}
 				{...props}
 				disabled={props.disabled || isLoading}
 			>
-				{isLoading ? (<div className="button-text-loader"></div>) : children}
+				{isLoading ? (<div className={styles.loader}></div>) : children}
 			</button>
 		</div>
 	);
 };
-
-export default FormButton;

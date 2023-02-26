@@ -2,12 +2,11 @@ import { useContext } from "react";
 import { Context } from "../App";
 import "./Authorization.css";
 
-import FormButton from "../components/ui/FormButton";
+import {FormButton} from "../components/ui";
 import { observer } from "mobx-react-lite";
 
 const Home = () => {
 	const { store } = useContext(Context);
-
   if (store.loading) {
     return (<div></div>)
   } else if (!store.user) {

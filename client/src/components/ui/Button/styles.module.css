@@ -1,4 +1,4 @@
-.form-button {
+.button {
   width: 94%;
   
   margin: 1rem 0 0 0;
@@ -16,22 +16,22 @@
     color .2s ease-out;
 }
 
-.filled-button {
+.filled {
   color: var(--light);
   background: var(--primary);
 }
 
-.filled-button:hover {
+.filled:hover {
   color: var(--primary);
   background: none;
 }
 
-.empty-button:hover {
+.empty:hover {
   color: var(--light);
   background: var(--primary);
 }
 
-.button-text-loader {
+.loader {
   border: 2px solid var(--light);
   border-top: 2px solid var(--primary);
   border-radius: 50%;
