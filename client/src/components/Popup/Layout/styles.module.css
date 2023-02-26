@@ -9,13 +9,26 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   z-index: 100;
 }
 
 .content {
-  padding: 1em;
+  padding: 3em;
   border-radius: 1.5vh;
   background-color: var(--white);
-  height: 30vh;
-  width: 30vw;
+  min-height: 10vh;
+  width: 20vw;
+}
+
+@media (max-width: 1200px) {
+  .content {
+    width: 40vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    width: 60vw;
+  }
 }

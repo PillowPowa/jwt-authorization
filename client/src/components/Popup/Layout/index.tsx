@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 
 import { LayoutParam } from "../types";
-import { ANIMATION_TIME_MS } from "./constant";
 
 import styles from "./styles.module.css";
 import animationStyles from "./animation.module.css";
+
+const ANIMATION_TIME_MS = 400;
 
 const animations = {
 	overlay: {
@@ -42,11 +43,7 @@ const Layout = ({ onClose, children, active }: LayoutParam) => {
 				unmountOnExit
 				classNames={animations.overlay}
 			>
-				<div
-					ref={contentRef}
-					className={styles.content}
-					onClick={(event) => event.preventDefault()}
-				>
+				<div ref={contentRef} className={styles.content}>
 					<CSSTransition
 						in={animationIn}
 						nodeRef={contentRef}
