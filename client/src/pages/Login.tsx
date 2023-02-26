@@ -1,19 +1,18 @@
-import {FormInput, FormButton} from "../components/ui";
+import { FormInput, FormButton } from "../components/ui";
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import "./Authorization.css";
 
 import { Context } from "../App";
-import getUserAgent from "./../hooks/UserAgent";
-import { ServerError } from "../types/ResponseTypes";
-import { useKeySubmit } from './../hooks/KeyDownSubmit';
-import type { LoginFormBody } from './../types/ResponseTypes';
-import { observer } from 'mobx-react-lite';
-import { PopupModal } from './../components/Popup/index';
+import type { ServerError, LoginFormBody } from "../types/ResponseTypes";
+
+import { useKeySubmit, getUserAgent } from "../hooks";
+import { observer } from "mobx-react-lite";
+import { PopupModal } from "./../components/Popup";
 
 const Login = () => {
-	const [popupActive, setPopupActive] = useState(false);
+	const [popupText, setPopupText] = useState<string>();
 	const [isLoading, setLoading] = useState(false);
 
 	const [identifier, setIdentifier] = useState<string>("");
@@ -39,8 +38,10 @@ const Login = () => {
 					message: error.msg + "*",
 				});
 			});
+		} else if (data && data.user && !data.user.isActivated) {
+			setPopupText(`A confirmation email has been sent to '${data.user.email}'`);
 		} else {
-			window.location.href = "/";
+			setPopupText("Successfully login!");
 		}
 		setTimeout(() => setLoading(false), 400);
 	});
@@ -49,17 +50,25 @@ const Login = () => {
 
 	return (
 		<>
-			<PopupModal active={popupActive} onClose={() => setPopupActive(false)}>
-				<div></div>
-			</PopupModal>
 			<div className="container green">
+				<PopupModal active={!!popupText} onClose={() => setPopupText("")}>
+					<>
+						<p style={{ color: "black", width: "auto" }}>{popupText}</p>
+						<FormButton
+							onClick={() => setTimeout(() => {
+								window.location.href = "/"
+							}, 400)}
+						>
+							Home
+						</FormButton>
+					</>
+				</PopupModal>
 				<div className="container-content">
 					<h2 style={{ fontSize: "5vh", color: "var(--dark-green)" }}>
 						Authorization
 					</h2>
 
 					<FormInput
-						className="form-component"
 						type="text"
 						{...register("identifier")}
 						errors={errors.identifier && errors.identifier.message}
@@ -68,7 +77,6 @@ const Login = () => {
 						Email or Username
 					</FormInput>
 					<FormInput
-						className="form-component"
 						type="password"
 						{...register("password")}
 						errors={errors.password && errors.password.message}
@@ -80,16 +88,12 @@ const Login = () => {
 					<div className="container-footer">
 						<FormButton
 							isLoading={isLoading}
-							className="form-component"
 							filled={true}
 							onClick={login}
 						>
 							Sign in!
 						</FormButton>
-						<FormButton className="form-component" onClick={() => setPopupActive(true)}>
-							Popup
-						</FormButton>
-						<p className="form-paragraph" style={{ marginTop: "1rem" }}>
+						<p className="form-component" style={{ marginTop: "1rem" }}>
 							Don't have an account?&nbsp;
 							<a href="/registration">Sign up!</a>
 						</p>
@@ -115,6 +119,6 @@ const Login = () => {
 			</div>
 		</>
 	);
-}
+};
 
 export default observer(Login);

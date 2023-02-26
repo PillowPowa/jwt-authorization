@@ -8,7 +8,6 @@ import { baseURL } from './../http/index';
 export default class Store {
   public user: UserPayload | null = null;
   public loading: boolean = false;
-
   constructor() {
     makeAutoObservable(this);
   }
@@ -16,7 +15,6 @@ export default class Store {
   public setUser(user: UserPayload | null) {
     this.user = user;
   }
-
   public async login(
     identifier: string,
     password: string,
@@ -53,7 +51,7 @@ export default class Store {
       return response.data;
     } catch (err) {
       if (err instanceof AxiosError) {
-        return err.response?.data
+        return err.response?.data;
       }
     }
   }
@@ -64,7 +62,6 @@ export default class Store {
       this.setUser(null);
     } catch (err) {
       if (err instanceof AxiosError) {
-        console.warn(err.response?.data?.message);
       } else {
         console.warn(err);
       }

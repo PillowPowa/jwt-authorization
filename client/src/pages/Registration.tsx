@@ -2,12 +2,11 @@ import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 
 import "./Authorization.css";
-import {FormInput, FormButton} from "../components/ui";
+import { FormInput, FormButton } from "../components/ui";
 
 import { Context } from "./../App";
-import getUserAgent from "./../hooks/UserAgent";
-import { RegistrationFormBody, ServerError } from "../types/ResponseTypes";
-import { useKeySubmit } from "./../hooks/KeyDownSubmit";
+import type { RegistrationFormBody, ServerError } from "../types/ResponseTypes";
+import { useKeySubmit, getUserAgent } from "../hooks";
 import { observer } from 'mobx-react-lite';
 
 const Registration = () => {
@@ -64,7 +63,6 @@ const Registration = () => {
 					<h2 style={{ fontSize: "5vh" }}>Lets get started</h2>
 
 					<FormInput
-						className="form-component"
 						type="text"
 						{...register("username")}
 						errors={errors.username && errors.username.message}
@@ -73,7 +71,6 @@ const Registration = () => {
 						Username
 					</FormInput>
 					<FormInput
-						className="form-component"
 						type="text"
 						{...register("email")}
 						errors={errors.email && errors.email.message}
@@ -82,7 +79,6 @@ const Registration = () => {
 						Email
 					</FormInput>
 					<FormInput
-						className="form-component"
 						type="password"
 						{...register("password")}
 						errors={errors.password && errors.password.message}
@@ -98,7 +94,6 @@ const Registration = () => {
 
 					<div className="container-footer">
 						<FormButton
-							className="form-component"
 							filled={true}
 							type="submit"
 							isLoading={isLoading}

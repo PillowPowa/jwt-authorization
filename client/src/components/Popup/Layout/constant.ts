@@ -1,1 +1,0 @@
-export const ANIMATION_TIME_MS = 400;
