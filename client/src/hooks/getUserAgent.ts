@@ -1,6 +1,6 @@
 import {UserAgent} from "../types/ResponseTypes";
 
-export default function getUserAgent() {
+export const getUserAgent = () => {
   const [isMobile, isTablet] = [
     /iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(
       navigator.userAgent.toLowerCase()
