@@ -2,46 +2,70 @@ import { useContext } from "react";
 import { Context } from "../App";
 import "./Authorization.css";
 
-import {FormButton} from "../components/ui";
+import { FormButton } from "../components/ui";
 import { observer } from "mobx-react-lite";
+import { Loader } from "./../components/Loader";
 
 const Home = () => {
 	const { store } = useContext(Context);
-  if (store.loading) {
-    return (<div></div>)
-  } else if (!store.user) {
+
+	if (store.loading) {
+		return <Loader />;
+	} else if (!store.user || !store.user.isActivated) {
 		return (
 			<div className="container blue">
-				<FormButton
-					className="form-component"
-					filled={true}
-					onClick={() => (window.location.href = "/login")}
-				>
-					Sign in
-				</FormButton>
-				<FormButton
-					className="form-component"
-					filled={true}
-					onClick={() => (window.location.href = "/registration")}
-				>
-					Sign up
-				</FormButton>
-			</div>
-		);
-	} else if (!store.user.isActivated) {
-		return (
-			<div className="container green">
-        <div className="container-content">
-          <h1 style={{color: "black"}}>An activation letter has been sent to the mail {store.user.email}</h1>
-        </div>
+				<div className="container-image">
+					<FormButton
+						filled={true}
+						style={{
+							position: "absolute",
+							top: "30vh",
+							left: 50,
+						}}
+						onClick={() => (window.location.href = "/registration")}
+					>
+						Sign up
+					</FormButton>
+					<img
+						className="container-image"
+						src="registration_background.png"
+						style={{ borderRadius: "6vh 0 0 6vh" }}
+						alt="background"
+					/>
+				</div>
+				<div className="container-image">
+					<FormButton
+						filled={true}
+						style={{
+							position: "absolute",
+							top: "30vh",
+							left: 50,
+						}}
+						onClick={() => (window.location.href = "/login")}
+					>
+						Sign in
+					</FormButton>
+					<img
+						className="container-image"
+						src="authorization_background.png"
+						style={{ borderRadius: "0 6vh 6vh 0" }}
+						alt="background"
+					/>
+				</div>
 			</div>
 		);
 	}
+
 	return (
 		<div className="container green">
 			<FormButton
 				className="form-component"
 				filled={true}
+				style={{
+					position: "absolute",
+					top: "30vh",
+					left: "60%"
+				}}
 				onClick={() => store.logout()}
 			>
 				Log out!
