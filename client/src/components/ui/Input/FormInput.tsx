@@ -3,13 +3,13 @@ import styles from "./styles.module.css";
 
 type InputComponentProps = {
 	children: string;
-	className: string;
+	className?: string;
 	errors?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export const FormInput = ({
 	children,
-	className,
+	className = "form-component",
 	errors,
 	type,
 	...props

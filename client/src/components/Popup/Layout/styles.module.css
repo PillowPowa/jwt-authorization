@@ -18,17 +18,17 @@
   border-radius: 1.5vh;
   background-color: var(--white);
   min-height: 10vh;
-  width: 20vw;
+  min-width: 20vw;
 }
 
 @media (max-width: 1200px) {
   .content {
-    width: 40vw;
+    min-width: 40vw;
   }
 }
 
 @media (max-width: 600px) {
   .content {
-    width: 60vw;
+    min-width: 60vw;
   }
 }

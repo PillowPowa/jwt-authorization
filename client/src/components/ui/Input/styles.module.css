@@ -1,6 +1,5 @@
-.input,
-.input:autofill {
-	width: 80%;
+.input {
+	width: calc(100% - 4rem);
 	height: 0%;
 
 	margin: .8rem 0 0 0;
@@ -11,7 +10,7 @@
 
 	color: var(--pale);
 	outline: none;
-	padding: 1.6rem 2rem 1.6rem 2rem;
+	padding: 1.6rem 2rem 1.6rem;
 	background: none;
 }
 
@@ -41,7 +40,6 @@
 }
 
 .error {
-	position: relative;
 	color: red;
 	font-size: .8rem;
 	width: inherit;
@@ -50,8 +48,8 @@
 
 .icon {
   position: absolute;
-  margin-left: -2.5rem;
-  margin-top: 1.7rem;
+ 	left: calc(100% - 2.5rem);
+  top: 1.7rem;
 	color: var(--dark);
 	cursor: pointer;
 }

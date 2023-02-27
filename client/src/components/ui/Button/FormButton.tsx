@@ -3,14 +3,14 @@ import styles from "./styles.module.css";
 type ButtonComponentProps = {
 	children: string;
 	filled?: boolean;
-	className: string;
+	className?: string;
 	isLoading?: boolean;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export const FormButton = ({
 	children,
 	filled,
-	className,
+	className = "form-component",
 	isLoading,
 	...props
 }: ButtonComponentProps) => {
