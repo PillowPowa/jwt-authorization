@@ -1,9 +1,10 @@
-import { makeAutoObservable } from 'mobx';
-import type { UserAgent, UserPayload } from './types/ResponseTypes';
-import AuthorizationService from './AuthorizationService';
 import axios from 'axios';
-import { SuccessCreateBody } from '../../../server/src/utils/types/AuthorizationTypes';
-import { baseURL } from './index';
+import { makeAutoObservable } from 'mobx';
+
+import AuthorizationService from './AuthorizationService';
+import { baseURL } from './httpRequester';
+import type { SuccessCreateBody } from './../../../server/src/utils/types/AuthorizationTypes';
+import type { UserAgent, UserPayload } from './types/ResponseTypes';
 
 export default class Store {
   public user: UserPayload | null = null;
@@ -56,39 +57,21 @@ export default class Store {
     }
   }
   public async logout() {
-    try {
-      await AuthorizationService.Logout();
-      localStorage.removeItem('token');
-      this.setUser(null);
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-      } else {
-        console.warn(err);
-      }
-    }
+    await AuthorizationService.Logout().catch(() => null);
+    localStorage.removeItem('token');
+    this.setUser(null);
   }
   public async refresh(userAgent: UserAgent) {
-    try {
-      this.setLoading(true);
-      const response = await axios.get<SuccessCreateBody>(
-        `${baseURL}/refresh`, {
-        withCredentials: true,
-        params: {
-          userAgent
-        }
-      }
-      );
-      localStorage.setItem('token', response.data.accessToken);
-      this.setUser(response.data.user);
-      return response.data;
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.warn(err.response?.data?.message);
-      } else {
-        console.warn(err);
-      }
-    } finally {
-      this.setLoading(false);
-    }
+    this.setLoading(true);
+    const axiosConfig = {withCredentials: true, params: { userAgent }};
+    return axios
+      .get<SuccessCreateBody>(`${baseURL}/refresh`, axiosConfig)
+      .then((response) => {
+        localStorage.setItem('token', response.data.accessToken);
+        this.setUser(response.data.user);
+        return response.data;
+      })
+      .catch(() => null)
+      .finally(() => this.setLoading(false))
   }
 }
