@@ -1,4 +1,4 @@
-import {UserAgent} from "../types/ResponseTypes";
+import {UserAgent} from "../utils/types/ResponseTypes";
 
 export const getUserAgent = () => {
   const [isMobile, isTablet] = [

@@ -1,15 +1,13 @@
-import { createContext, useEffect } from "react";
-import Registration from "./pages/Registration";
-import Login from "./pages/Login";
-
+import { createContext, useEffect, useContext } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Store from "./store/store";
-import type { StoreContext } from "./types/types";
-import { useContext } from "react";
+import * as Pages from "./components/Content";
+
+import Store from "./utils/store";
 import { observer } from "mobx-react-lite";
-import Home from "./pages/Home";
+
 import { getUserAgent } from "./hooks";
+import type { StoreContext } from "./utils/types/types";
 
 const store = new Store();
 export const Context = createContext<StoreContext>({
@@ -19,15 +17,15 @@ export const Context = createContext<StoreContext>({
 const router = createBrowserRouter([
 	{
 		path: "/",
-		element: <Home></Home>,
+		element: <Pages.Home />,
 	},
 	{
 		path: "/registration",
-		element: <Registration></Registration>,
+		element: <Pages.Registration />,
 	},
 	{
 		path: "/login",
-		element: <Login></Login>,
+		element: <Pages.Login />,
 	},
 ]);
 
