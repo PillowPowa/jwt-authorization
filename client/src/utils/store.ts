@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import type { UserAgent, UserPayload } from './types/ResponseTypes';
 import AuthorizationService from './AuthorizationService';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { SuccessCreateBody } from '../../../server/src/utils/types/AuthorizationTypes';
 import { baseURL } from './index';
 
@@ -28,7 +28,7 @@ export default class Store {
       this.setUser(response.data.user);
       return response.data;
     } catch (err) {
-      if (err instanceof AxiosError) {
+      if (axios.isAxiosError(err)) {
         return err.response?.data
       }
     }
@@ -50,7 +50,7 @@ export default class Store {
       this.setUser(response.data.user);
       return response.data;
     } catch (err) {
-      if (err instanceof AxiosError) {
+      if (axios.isAxiosError(err)) {
         return err.response?.data;
       }
     }
@@ -61,7 +61,7 @@ export default class Store {
       localStorage.removeItem('token');
       this.setUser(null);
     } catch (err) {
-      if (err instanceof AxiosError) {
+      if (axios.isAxiosError(err)) {
       } else {
         console.warn(err);
       }
@@ -82,7 +82,7 @@ export default class Store {
       this.setUser(response.data.user);
       return response.data;
     } catch (err) {
-      if (err instanceof AxiosError) {
+      if (axios.isAxiosError(err)) {
         console.warn(err.response?.data?.message);
       } else {
         console.warn(err);
