@@ -21,7 +21,12 @@ const animations = {
 		exit: animationStyles.contentExit,
 		exitActive: animationStyles.contentExitActive,
 	},
-} satisfies Record<string, any>;
+} satisfies Record<string, {
+	enter: string;
+	enterActive: string;
+	exit: string;
+	exitActive: string;
+}>;
 
 const Layout = ({ onClose, children, active }: LayoutParam) => {
 	const overlayRef = useRef<HTMLDivElement>(null);

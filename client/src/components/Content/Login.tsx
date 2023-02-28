@@ -54,16 +54,18 @@ export const Login = observer(() => {
 	return (
 		<>
 			<PopupModal active={!!popupText} onClose={() => setPopupText("")}>
-				<p style={{ color: "black", width: "auto" }}>{popupText}</p>
-				<FormButton
-					onClick={() =>
-						setTimeout(() => {
-							window.location.href = "/";
-						}, 400)
-					}
-				>
-					Home
-				</FormButton>
+				<>
+					<p style={{ color: "black", width: "auto" }}>{popupText}</p>
+					<FormButton
+						onClick={() =>
+							setTimeout(() => {
+								window.location.href = "/";
+							}, 400)
+						}
+					>
+						Home
+					</FormButton>
+				</>
 			</PopupModal>
 			<div className="container green">
 				<div className="container-content">
@@ -121,4 +123,3 @@ export const Login = observer(() => {
 		</>
 	);
 });
-
