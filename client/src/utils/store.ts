@@ -1,9 +1,9 @@
 import { makeAutoObservable } from 'mobx';
-import type { UserAgent, UserPayload } from '../types/ResponseTypes';
-import AuthorizationService from './../services/AuthorizationService';
+import type { UserAgent, UserPayload } from './types/ResponseTypes';
+import AuthorizationService from './AuthorizationService';
 import axios, { AxiosError } from 'axios';
-import { SuccessCreateBody } from './../../../server/src/utils/types/AuthorizationTypes';
-import { baseURL } from './../http/index';
+import { SuccessCreateBody } from '../../../server/src/utils/types/AuthorizationTypes';
+import { baseURL } from './index';
 
 export default class Store {
   public user: UserPayload | null = null;

@@ -1,19 +1,20 @@
-import { FormInput, FormButton } from "../components/ui";
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 
-import "./Authorization.css";
+import { FormInput, FormButton } from "../ui";
+import { PopupModal } from "../Popup";
 
-import { Context } from "../App";
-import type { ServerError, LoginFormBody } from "../types/ResponseTypes";
+import "./styles.css";
 
-import { useKeySubmit, getUserAgent } from "../hooks";
+import { Context } from "../../App";
 import { observer } from "mobx-react-lite";
-import { PopupModal } from "./../components/Popup";
 
-const Login = () => {
-	const [popupText, setPopupText] = useState<string>();
-	const [isLoading, setLoading] = useState(false);
+import { useKeySubmit, getUserAgent } from "../../hooks";
+import type { ServerError, LoginFormBody } from "../../utils/types/ResponseTypes";
+
+export const Login = observer(() => {
+	const [popupText, setPopupText] = useState<string>("");
+	const [isButtonLoading, setButtonLoading] = useState(false);
 
 	const [identifier, setIdentifier] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
@@ -28,7 +29,7 @@ const Login = () => {
 	} = useForm<LoginFormBody>();
 
 	const login = handleSubmit(async () => {
-		setLoading(true);
+		setButtonLoading(true);
 		const data = await store.login(identifier, password, getUserAgent());
 		const serverErr = data?.errors;
 		if (serverErr) {
@@ -38,31 +39,33 @@ const Login = () => {
 					message: error.msg + "*",
 				});
 			});
-		} else if (data && data.user && !data.user.isActivated) {
-			setPopupText(`A confirmation email has been sent to '${data.user.email}'`);
+		} else if ("user" in data && !data.user.isActivated) {
+			setPopupText(
+				`A confirmation email has been sent to '${data.user.email}'`
+			);
 		} else {
 			setPopupText("Successfully login!");
 		}
-		setTimeout(() => setLoading(false), 400);
+		setTimeout(() => setButtonLoading(false), 400);
 	});
 
 	useKeySubmit(login);
 
 	return (
 		<>
+			<PopupModal active={!!popupText} onClose={() => setPopupText("")}>
+				<p style={{ color: "black", width: "auto" }}>{popupText}</p>
+				<FormButton
+					onClick={() =>
+						setTimeout(() => {
+							window.location.href = "/";
+						}, 400)
+					}
+				>
+					Home
+				</FormButton>
+			</PopupModal>
 			<div className="container green">
-				<PopupModal active={!!popupText} onClose={() => setPopupText("")}>
-					<>
-						<p style={{ color: "black", width: "auto" }}>{popupText}</p>
-						<FormButton
-							onClick={() => setTimeout(() => {
-								window.location.href = "/"
-							}, 400)}
-						>
-							Home
-						</FormButton>
-					</>
-				</PopupModal>
 				<div className="container-content">
 					<h2 style={{ fontSize: "5vh", color: "var(--dark-green)" }}>
 						Authorization
@@ -87,7 +90,7 @@ const Login = () => {
 
 					<div className="container-footer">
 						<FormButton
-							isLoading={isLoading}
+							isLoading={isButtonLoading}
 							filled={true}
 							onClick={login}
 						>
@@ -99,14 +102,12 @@ const Login = () => {
 						</p>
 					</div>
 				</div>
-				<div className="container-image">
-					<img
-						className="container-image"
-						src="authorization_background.png"
-						style={{ borderRadius: "0 6vh 6vh 0" }}
-						alt="background"
-					/>
-				</div>
+				<img
+					className="container-image"
+					src="authorization_background.png"
+					style={{ borderRadius: "0 6vh 6vh 0" }}
+					alt="background"
+				/>
 			</div>
 			<div
 				className="poster"
@@ -119,6 +120,5 @@ const Login = () => {
 			</div>
 		</>
 	);
-};
+});
 
-export default observer(Login);

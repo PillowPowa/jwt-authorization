@@ -1,6 +1,6 @@
-import {api} from './../http/index';
+import {api} from './index';
 import {AxiosResponse} from 'axios';
-import type {UserAgent, SuccessCreateBody} from '../types/ResponseTypes';
+import type {UserAgent, SuccessCreateBody} from './types/ResponseTypes';
 
 export default class AuthorizationService {
   static async Login(

@@ -1,12 +1,14 @@
 import { useContext } from "react";
-import { Context } from "../App";
-import "./Authorization.css";
+import { Context } from "../../App";
 
-import { FormButton } from "../components/ui";
+import { FormButton } from "../ui";
+import { Loader } from "../Loader";
+
+import "./styles.css";
+
 import { observer } from "mobx-react-lite";
-import { Loader } from "./../components/Loader";
 
-const Home = () => {
+export const Home = observer(() => {
 	const { store } = useContext(Context);
 
 	if (store.loading) {
@@ -72,6 +74,4 @@ const Home = () => {
 			</FormButton>
 		</div>
 	);
-};
-
-export default observer(Home);
+});

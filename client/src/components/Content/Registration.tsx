@@ -1,15 +1,17 @@
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 
-import "./Authorization.css";
-import { FormInput, FormButton } from "../components/ui";
+import { FormInput, FormButton } from "../ui";
 
-import { Context } from "./../App";
-import type { RegistrationFormBody, ServerError } from "../types/ResponseTypes";
-import { useKeySubmit, getUserAgent } from "../hooks";
+import "./styles.css";
+
+import { Context } from "../../App";
 import { observer } from 'mobx-react-lite';
 
-const Registration = () => {
+import { useKeySubmit, getUserAgent } from "../../hooks";
+import type { RegistrationFormBody, ServerError } from "../../utils/types/ResponseTypes";
+
+export const Registration = observer(() => {
 	const [isLoading, setLoading] = useState(false);
 
 	const [username, setUserName] = useState<string>("");
@@ -120,6 +122,5 @@ const Registration = () => {
 			</div>
 		</>
 	);
-}
+});
 
-export default observer(Registration);
