@@ -2,7 +2,6 @@ import {StatusCode} from './types/StatusCode';
 import type {APIErrorJSON} from './types/AuthorizationTypes';
 import type {ValidationError} from 'express-validator';
 
-@Log
 export default class ApiError extends Error {
   public readonly code: StatusCode;
   public readonly createdAt: Date = new Date();
@@ -29,8 +28,4 @@ export default class ApiError extends Error {
       errors: this.errors,
     };
   }
-}
-
-function Log(constructor: Function) {
-  console.log('Constructor', constructor);
 }
